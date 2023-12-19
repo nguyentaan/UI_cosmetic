@@ -5,10 +5,9 @@ import { Modal, Button } from "react-bootstrap";
 import { addDataProduct } from "../../actionCreators/AdminAction";
 
 const AdminProductAdd = (props) => {
-  const [selectedFileName, setSelectedFileName] = useState("");
 
   const [dataAddInput, setDataAddInput] = useState({
-    image: null,
+    image: "",
     name: "",
     price: "",
     description: "",
@@ -22,13 +21,13 @@ const AdminProductAdd = (props) => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  const selectFile = (event) => {
-    setDataAddInput({
-      ...dataAddInput,
-      [event.currentTarget.name]: event.target.files[0],
-    });
-    setSelectedFileName(event.target.files[0].name);
-  };
+  // const selectFile = (event) => {
+  //   setDataAddInput({
+  //     ...dataAddInput,
+  //     [event.currentTarget.name]: event.target.files[0],
+  //   });
+  //   setSelectedFileName(event.target.files[0].name);
+  // };
 
   const closeAddModal = () => {
     props.unDisplayAddModal(false);
@@ -104,19 +103,12 @@ const AdminProductAdd = (props) => {
               <div className="custom-file">
                 <input
                   name="image"
-                  type="file"
+                  type="url"
                   accept="image/*"
-                  className="custom-file-input"
-                  id="customFile"
-                  onChange={selectFile}
+                  className="form-control"
+                  placeholder="Image's url"
+                  onChange={handleAddInputChange}
                 />
-                <label className="custom-file-label" htmlFor="customFile">
-                  {selectedFileName ? (
-                    <p className="text-success-s2 my-0">{selectedFileName}</p>
-                  ) : (
-                    "Choose file"
-                  )}
-                </label>
               </div>
             </div>
             <div className="form-group">
@@ -138,9 +130,11 @@ const AdminProductAdd = (props) => {
                   name="productType"
                   onChange={handleAddInputChange}
                 >
-                  <option value="tops">Face</option>
-                  <option value="bottom">Eyes</option>
-                  <option value="outer wear">Lips</option>
+                  <option value="Face">Face</option>
+                  <option value="Eyes">Eyes</option>
+                  <option value="Lips">Lips</option>
+                  <option value="Shanving Needs">Shanving Needs</option>
+                  <option value="Facial Care">Facial Care</option>
                 </select>
               </div>
             </div>

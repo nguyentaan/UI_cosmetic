@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
 
 import { editDataProduct } from "../../actionCreators/AdminAction";
 
 const AdminProductEdit = (props) => {
-  const [selectedFileName, setSelectedFileName] = useState("");
-
   const [dataEditInput, setDataEditInput] = useState({
-    image: null,
+    image: "",
     name: "",
     price: "",
     description: "",
@@ -16,24 +14,22 @@ const AdminProductEdit = (props) => {
     productType: "",
   });
 
-  // useEffect(() => {
-  //   setDataEditInput({
-  //     image: null,
-  //   });
-  // }, [props.dataEdit._id]);
+  useEffect(() => {
+    setDataEditInput({
+      image: props.dataEdit.image || "",
+      name: props.dataEdit.name || "",
+      price: props.dataEdit.price || "",
+      description: props.dataEdit.description || "",
+      quantity: props.dataEdit.quantity || "",
+      productType: props.dataEdit.productType || "",
+    });
+  }, [props.dataEdit]);
 
   const handleEditInputChange = (event) => {
     setDataEditInput({
       ...dataEditInput,
       [event.currentTarget.name]: event.currentTarget.value,
     });
-  };
-  const selectFile = (event) => {
-    setDataEditInput({
-      ...dataEditInput,
-      [event.currentTarget.name]: event.target.files[0],
-    });
-    setSelectedFileName(event.target.files[0].name);
   };
 
   const closeEditModal = () => {
@@ -71,6 +67,7 @@ const AdminProductEdit = (props) => {
                 className="form-control"
                 placeholder="Name"
                 name="name"
+                value={dataEditInput.name}
                 onChange={handleEditInputChange}
               />
             </div>
@@ -82,6 +79,7 @@ const AdminProductEdit = (props) => {
                   className="form-control"
                   placeholder="Price"
                   name="price"
+                  value={dataEditInput.price}
                   onChange={handleEditInputChange}
                 />
               </div>
@@ -93,6 +91,7 @@ const AdminProductEdit = (props) => {
                   className="form-control"
                   placeholder="Stock"
                   name="quantity"
+                  value={dataEditInput.quantity}
                   onChange={handleEditInputChange}
                 />
               </div>
@@ -102,19 +101,13 @@ const AdminProductEdit = (props) => {
               <div className="custom-file">
                 <input
                   name="image"
-                  type="file"
+                  type="url"
                   accept="image/*"
-                  className="custom-file-input"
-                  id="customFile"
-                  onChange={selectFile}
+                  className="form-control"
+                  placeholder="Image's url"
+                  value={dataEditInput.image}
+                  onChange={handleEditInputChange}
                 />
-                <label className="custom-file-label" htmlFor="customFile">
-                  {selectedFileName ? (
-                    <p className="text-success-s2 my-0">{selectedFileName}</p>
-                  ) : (
-                    "Choose file"
-                  )}
-                </label>
               </div>
             </div>
             <div className="form-group">
@@ -125,6 +118,7 @@ const AdminProductEdit = (props) => {
                 className="form-control"
                 placeholder="Description"
                 name="description"
+                value={dataEditInput.description}
                 onChange={handleEditInputChange}
               />
             </div>
@@ -134,11 +128,14 @@ const AdminProductEdit = (props) => {
                 <select
                   className="form-control"
                   name="productType"
+                  value={dataEditInput.productType}
                   onChange={handleEditInputChange}
                 >
-                  <option value="tops">Face</option>
-                  <option value="bottom">Eyes</option>
-                  <option value="outer wear">Lips</option>
+                  <option value="Face">Face</option>
+                  <option value="Eyes">Eyes</option>
+                  <option value="Lips">Lips</option>
+                  <option value="Shanving Needs">Shaving Needs</option>
+                  <option value="Facial Care">Facial Care</option>
                 </select>
               </div>
             </div>

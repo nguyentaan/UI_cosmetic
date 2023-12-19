@@ -14,6 +14,29 @@ const AdminUsers = (props) => {
     dispatch(getDataUser());
   }, [dispatch]);
 
+  //Search
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredUsers =
+    props.dataUser &&
+    props.dataUser.filter((item) => {
+      const phoneNumberString =
+        typeof item.phoneNumber === "number"
+          ? String(item.phoneNumber)
+          : item.phoneNumber;
+
+      return (
+        item.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (typeof phoneNumberString === "string" &&
+          phoneNumberString.includes(searchTerm))
+      );
+    });
+
   // DELETE MODAL FORM.
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   // dataDelete = productDatas that want to be deleted.
@@ -58,6 +81,13 @@ const AdminUsers = (props) => {
 
   return (
     <div className="text-center container">
+      <input
+        type="text"
+        placeholder="Search User by Name, Email, or Phone Number"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className=" my-3 search-input"
+      />
       <Table className="table table-success">
         <Thead>
           <Tr>
@@ -71,7 +101,7 @@ const AdminUsers = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {props.dataUser.map((item, index) => {
+          {filteredUsers.map((item, index) => {
             return (
               <Tr key={index}>
                 <Td className="text-justify text-center">{index + 1}</Td>

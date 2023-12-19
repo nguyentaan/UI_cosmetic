@@ -7,9 +7,11 @@ import {
 import { useDispatch } from "react-redux";
 
 import { Modal, Button, Alert } from "react-bootstrap";
+// import { Modal, Button, Alert, TextField } from "@mui/material";
+
 import EditProductModal from "./AdminProductEdit";
 import AddProductModal from "./AdminProductAdd";
-import './../Admin.css'
+import "./../Admin.css";
 
 const AdminProduct = (props) => {
   // const urlLocalhost = `${process.env.REACT_APP_API_URL}`;
@@ -37,6 +39,19 @@ const AdminProduct = (props) => {
   const unDisplayAddModal = (boolean) => {
     setShowAddModal(boolean);
   };
+
+  // Search
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = props.dataProduct.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.productType.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // EDIT MODAL FORM. (WHEN YOU MAKE MODAL FOR EDIT,ETC, YOU NEED TO DIVIDE THAT AS OTHER FILE.)
 
@@ -125,13 +140,24 @@ const AdminProduct = (props) => {
     <div className="text-center">
       <AlertDismissible />
 
-      <button className="btn btn-success" onClick={displayAddModal}>
-        Add Product here as Admin
-      </button>
+      <div className="df ">
+        <button className="btn btn-success" onClick={displayAddModal}>
+          Add Product here as Admin
+        </button>
+
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder="Search Product"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className=" my-3 search-input"
+        />
+      </div>
 
       <div className="mx-4 my-3">
         <div className="row">
-          {props.dataProduct.map((item, index) => {
+          {filteredProducts.map((item, index) => {
             return (
               <div className="col-md-3 mt-4" key={index}>
                 <div className="card h100">

@@ -47,16 +47,12 @@ export const deleteUser = (dataId) => {
 export const addDataProduct = (FormAddData, data) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${url}/products/create`,
-        FormAddData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "x-access-token": tokenAdmin,
-          },
-        }
-      );
+      const response = await axios.post(`${url}/products/create`, FormAddData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-access-token": tokenAdmin,
+        },
+      });
       const output = response.data;
       dispatch({
         type: "ADD_DATA_PRODUCT",
@@ -79,7 +75,7 @@ export const addDataProduct = (FormAddData, data) => {
 export const getDataProduct = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${url}/products/get`);
+      const response = await axios.get(`${url}/products/getAllProducts`);
       const output = response.data;
 
       dispatch({
@@ -97,7 +93,7 @@ export const editDataProduct = (FormEditData, data) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(
-        `${url}/products/update/${data._id}`,
+        `${url}/products/update/${data.productID}`,
         FormEditData,
         {
           headers: {
@@ -106,15 +102,36 @@ export const editDataProduct = (FormEditData, data) => {
           },
         }
       );
-      const output = response.data;
+
+      const updatedProduct = response.data.data; // Assuming your response structure has a 'data' property
+
       dispatch({
         type: "EDIT_DATA_PRODUCT",
-        // payload must be the return from backend because that's best
-        payload: output.data,
+        payload: updatedProduct,
       });
+
+      console.log(`Product with ID ${data.productID} successfully updated!`);
     } catch (error) {
-      const errorOutput = error.response;
-      console.log(errorOutput);
+      console.error("Error in editDataProduct:", error);
+
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error during request setup:", error.message);
+      }
+
+      // Dispatch an action indicating failure or handle the error accordingly
+      dispatch({
+        type: "EDIT_DATA_PRODUCT_FAILURE",
+        payload: error.message, // You might want to adjust this based on your needs
+      });
     }
   };
 };

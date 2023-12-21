@@ -9,6 +9,12 @@
     align-items: center;
 }
 
+.sp{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
 /* Add this CSS in your stylesheet or style tag */
 
 .search-input {
@@ -19,4 +25,22 @@
   border-radius: 5px;
   outline: none;
 }
+
+/* Add these styles to your CSS file */
+
+.tag{
+  /* height: 100%; */
+  padding: 10px;
+  border-radius: 0.25rem;
+}
+.status-available {
+  background-color: green;
+  color: white; /* You can adjust the text color based on your design */
+}
+
+.status-unavailable {
+  background-color: red;
+  color: white; /* You can adjust the text color based on your design */
+}
+
 

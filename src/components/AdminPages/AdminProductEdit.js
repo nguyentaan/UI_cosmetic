@@ -12,6 +12,7 @@ const AdminProductEdit = (props) => {
     description: "",
     quantity: "",
     productType: "",
+    status: "",
   });
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const AdminProductEdit = (props) => {
       description: props.dataEdit.description || "",
       quantity: props.dataEdit.quantity || "",
       productType: props.dataEdit.productType || "",
+      status: props.dataEdit.status || "",
     });
   }, [props.dataEdit]);
 
@@ -44,11 +46,13 @@ const AdminProductEdit = (props) => {
   FormEditData.append("description", dataEditInput.description);
   FormEditData.append("quantity", dataEditInput.quantity);
   FormEditData.append("productType", dataEditInput.productType);
+  FormEditData.append("status", dataEditInput.status);
 
   const handleSubmitEdit = (event) => {
     event.preventDefault();
     props.editDataProduct(FormEditData, props.dataEdit, dataEditInput);
     props.unDisplayEditModal(false);
+    console.log("product edited: ",props.dataEdit);
   };
 
   return (
@@ -136,6 +140,18 @@ const AdminProductEdit = (props) => {
                   <option value="Lips">Lips</option>
                   <option value="Shanving Needs">Shaving Needs</option>
                   <option value="Facial Care">Facial Care</option>
+                </select>
+              </div>
+              <div className="form-group ml-3 w-100">
+                <label htmlFor="product-type">Select Product Status</label>
+                <select
+                  className="form-control"
+                  name="productType"
+                  value={dataEditInput.status}
+                  onChange={handleEditInputChange}
+                >
+                  <option value="Available">Available</option>
+                  <option value="Unavailable">Unavailable</option>
                 </select>
               </div>
             </div>

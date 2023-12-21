@@ -64,6 +64,8 @@ const AdminProduct = (props) => {
   const displayEditModal = (data) => {
     setDataEdit(data);
     setShowEditModal(true);
+    // You can now use the entire product object as needed
+    console.log("Selected Product:", data.productID);
   };
 
   // to send to AdminProductEdit.js = function to close modal.
@@ -85,7 +87,7 @@ const AdminProduct = (props) => {
     setShowDeleteModal(false);
   };
   const handleDelete = () => {
-    dispatch(deleteDataProduct(dataDelete._id));
+    dispatch(deleteDataProduct(dataDelete.productID));
     setShowDeleteModal(false);
   };
   const DeleteProductModal = () => {
@@ -166,29 +168,36 @@ const AdminProduct = (props) => {
                     className="card-img-top"
                     alt="..."
                   />
-                  <div className="card-body">
-                    <p className="font-weight-bold my-0">{item.name}</p>
-                    <small className="card-text text-secondary">
-                      Stock : {item.quantity}
-                    </small>
-                    <div className="d-flex d-row mb-3 justify-content-center">
-                      <button
-                        className="btn ml-3"
-                        style={{
-                          borderRadius: "7px",
-                          backgroundColor: "#dedede",
-                        }}
-                      >
-                        {item.productType}
-                      </button>
-                    </div>
+                  <div className="card-body sp">
+                    <div>
+                      <p className="font-weight-bold my-0">{item.name}</p>
+                      <small className="card-text text-secondary">
+                        Stock : {item.quantity}
+                      </small>
+                      <div className="d-flex d-row mb-3 justify-content-center">
+                        <button
+                          className="btn ml-3"
+                          style={{
+                            borderRadius: "7px",
+                            backgroundColor: "#dedede",
+                          }}
+                        >
+                          {item.productType}
+                        </button>
+                      </div>
 
-                    <p>{item.description}</p>
+                      <p>{item.description}</p>
+                    </div>
                     <div className="d-flex d-row mt-4">
                       <p className="my-0 text-success-s2 font-weight-bold">
                         ${item.price}
                       </p>
                       <div className="d-flex d-row ml-auto">
+                        <div
+                          className={`my-0 ml-2 mr-2 tag status-${item.status.toLowerCase()}`}
+                        >
+                          {item.status}
+                        </div>
                         <button
                           className="btn btn-warning mr-2"
                           onClick={() => displayEditModal(item)}

@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { Modal, Alert, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import logo from "../../assets/logo.png";
-import FacebookLogin from "./FacebookButton";
 
 import {
   loginUser,
@@ -50,12 +49,6 @@ const Login = (props) => {
       autoClose: 2500,
       // if not it will show 2 times.
       closeButton: false,
-    });
-  };
-
-  const comingSoonNotification = () => {
-    toast.success("This Feature will coming soon, Stay tune!", {
-      position: toast.POSITION.TOP_CENTER,
     });
   };
 
@@ -124,10 +117,6 @@ const Login = (props) => {
     props.registerSuccessToastifyNotif.show = false;
   };
 
-  // for facebook
-  const getDataUserFacebook = (data) => {
-    props.userLoginFacebook(data);
-  };
   return (
     <div>
       <Modal show={props.showLoginModal} onHide={closeLoginModal}>
@@ -193,27 +182,6 @@ const Login = (props) => {
                   </div>
 
                   <p style={{ fontSize: "1rem", margin: "0.7rem 0rem" }}>or</p>
-
-                  <div>
-                    {/* <button
-                      onClick={comingSoonNotification}
-                      className="btn btn-primary w-100 d-flex d-row justify-content-center mb-2"
-                      style={{ padding: "0.7rem 0.2rem" }}
-                    >
-                      <i className="fab fa-facebook-square fa-lg align-self-center mr-3" />
-                      Login with Facebook
-                    </button> */}
-                    <FacebookLogin getDataUserFacebook={getDataUserFacebook} />
-                    <button
-                      type="button"
-                      onClick={comingSoonNotification}
-                      className="btn btn-danger w-100 d-flex d-row justify-content-center"
-                      style={{ padding: "0.7rem 0.2rem" }}
-                    >
-                      <i className="fab fa-google fa-lg align-self-center mr-3" />
-                      Login with Google
-                    </button>
-                  </div>
 
                   <p style={{ fontSize: "1rem", margin: "0.7rem 0rem" }}>
                     Don't have any account?

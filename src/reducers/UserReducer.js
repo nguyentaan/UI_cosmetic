@@ -3,6 +3,7 @@ const initialState = {
   isProductLoading: false,
   dataProduct: [],
   dataCart: [],
+  dataOrder:[],
   alert: {
     show: false,
     message: "",
@@ -29,7 +30,7 @@ const UserReducer = (state = initialState, action) => {
         qtyBuy: 1,
       };
       const dataIsSame = state.dataCart.find((item) => {
-        return item._id === data._id;
+        return item.productID === data.productID;
       });
 
       if (!dataIsSame) {
@@ -52,7 +53,7 @@ const UserReducer = (state = initialState, action) => {
 
     case "INCREASE_QTY_BUY":
       const dataCart = state.dataCart.map((item) => {
-        if (action.payload === item._id) {
+        if (action.payload === item.productID) {
           // ++ = item.qtyBuy + 1, pkai ini krna kalau +1 ngga diterima
           item.qtyBuy++;
         }
@@ -68,7 +69,7 @@ const UserReducer = (state = initialState, action) => {
 
     case "DECREASE_QTY_BUY":
       const dataCartDecrease = state.dataCart.map((item) => {
-        if (action.payload === item._id && item.qtyBuy !== 1) {
+        if (action.payload === item.productID && item.qtyBuy !== 1) {
           item.qtyBuy--;
         }
 
@@ -82,13 +83,37 @@ const UserReducer = (state = initialState, action) => {
 
     case "DELETE_ITEM_FROM_CART":
       const filteredItem = state.dataCart.filter((item) => {
-        if (item._id === action.payload._id) {
+        if (item.productID === action.payload.productID) {
           return false;
         } else return true;
       });
       return {
         ...state,
         dataCart: filteredItem,
+      };
+
+    case "CREATE_ORDER_REQUEST":
+      return {
+        ...state,
+        isCreatingOrder: true,
+      };
+
+    case "CREATE_ORDER_SUCCESS":
+      const newOrder = action.payload;
+      return {
+        ...state,
+        isCreatingOrder: false,
+        orders: [...state.dataOrder, newOrder],
+        dataCart: [], // Assuming you want to clear the cart after creating an order
+      };
+
+    case "CREATE_ORDER_FAILURE":
+      const error = action.payload;
+      // Handle error state if needed
+      return {
+        ...state,
+        isCreatingOrder: false,
+        orderError: error,
       };
 
     default:

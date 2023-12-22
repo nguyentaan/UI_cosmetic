@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import logo from "../../assets/logo.png";
+import { createOrder } from "../../actionCreators/UserAction";
+import axios from "axios";
 
 import CheckoutModal from "./CheckoutModal";
 import "../Checkout.css";
@@ -12,21 +14,30 @@ const Checkout = (props) => {
   const [dataInputCheckout, setDataInputCheckout] = useState({
     firstName: "",
     lastName: "",
-    emailAddress: "",
+    email: "",
     country: "",
     city: "",
     address: "",
-    phoneNumber: "",
-    postalCode: "",
-    payment: "Direct Bank Transfer",
+    phoneNumber: null,
+    postalCode: null,
+    // payment: "Direct Bank Transfer",
   });
 
   const handleInputCheckoutChange = (event) => {
+    const { name, value } = event.currentTarget;
+
+    // Convert phoneNumber and postalCode to numbers if applicable
+    const parsedValue =
+      name === "phoneNumber" || name === "postalCode"
+        ? parseInt(value, 10)
+        : value;
+
     setDataInputCheckout({
       ...dataInputCheckout,
-      [event.currentTarget.name]: event.currentTarget.value,
+      [name]: parsedValue,
     });
   };
+
   console.log(dataInputCheckout);
 
   const unavailableAlert = () =>
@@ -38,12 +49,51 @@ const Checkout = (props) => {
       }
     );
 
-  const handleCheckoutSubmit = (event) => {
+  const userID = localStorage.getItem("userID");
+
+  const handleCheckoutSubmit = async (event) => {
     event.preventDefault();
     if (dataInputCheckout.payment === "Direct Bank Transfer") {
       unavailableAlert();
     } else {
-      setShowCheckoutModal(true);
+      try {
+        const productsArray = props.dataCart.map((item) => ({
+          productID: item.productID,
+          qtyBuy: item.qtyBuy,
+          price: item.price,
+        }));
+
+        // Convert userID to integer and totalPrice to string
+        const orderDetails = {
+          ...dataInputCheckout,
+          userID: parseInt(userID, 10),
+          totalPrice: (props.subTotalPrice + 5).toString(),
+          // Remove payment field
+          // payment: dataInputCheckout.payment,
+          products: productsArray,
+        };
+        // Omit the payment field
+        delete orderDetails.payment;
+
+        console.log("Order Details:", orderDetails);
+
+        const response = await axios.post(
+          "http://localhost:8081/orders/create",
+          orderDetails
+        );
+
+        // Optionally, you can handle the created order response here
+        console.log("Order Created:", response.data);
+
+        // await props.createOrder(orderDetails);
+        setShowCheckoutModal(true);
+      } catch (error) {
+        // Handle errors (e.g., show error message)
+        toast.error("Failed to place the order. Please try again.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 6000,
+        });
+      }
     }
   };
 
@@ -140,7 +190,7 @@ const Checkout = (props) => {
                   </p>
                   <input
                     type="text"
-                    name="emailAddress"
+                    name="email"
                     className="form-control"
                     placeholder="Email address"
                     onChange={handleInputCheckoutChange}
@@ -423,4 +473,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Checkout);
+// Connect the createOrder action to the component
+const mapDispatchToProps = {
+  createOrder,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

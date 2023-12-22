@@ -22,6 +22,7 @@ const Products = (props) => {
 
   const inputCart = (data) => {
     dispatch(addItemToCart(data));
+    console.log("product:", data);
   };
   const showDetail = (data) => {
     setDataProduct(data);
@@ -93,12 +94,13 @@ const Products = (props) => {
                       SEE DETAIL
                     </h3>
                   </div>
-                  <div className="card-body">
-                    <p className="font-weight-bold my-0">{item.name}</p>
-                    <small className="card-text text-secondary">
-                      Stock : {item.quantity}
-                    </small>
-                    <br />
+                  <div className="card-body sp">
+                    <div>
+                      <p className="font-weight-bold my-0">{item.name}</p>
+                      <small className="card-text text-secondary">
+                        Stock : {item.quantity}
+                      </small>
+                    </div>
                     <div className="d-flex d-row mt-4">
                       <p className="my-0 text-success-s2 font-weight-bold">
                         ${item.price}

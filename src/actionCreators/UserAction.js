@@ -65,3 +65,35 @@ export const deleteItemFromCart = (item) => {
     });
   };
 };
+
+export const createOrderRequest = () => ({
+  type: "CREATE_ORDER_REQUEST",
+});
+
+export const createOrderSuccess = (orderData) => ({
+  type: "CREATE_ORDER_SUCCESS",
+  payload: orderData,
+});
+
+export const createOrderFailure = (error) => ({
+  type: "CREATE_ORDER_FAILURE",
+  payload: error,
+});
+
+export const createOrder = (orderDetails) => {
+  return async (dispatch) => {
+    dispatch(createOrderRequest());
+
+    try {
+      const response = await axios.post(`${url}/orders/create`, orderDetails);
+      const orderData = response.data.data;
+
+      dispatch(createOrderSuccess(orderData));
+    } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data
+        : "An error occurred";
+      dispatch(createOrderFailure(errorMessage));
+    }
+  };
+};

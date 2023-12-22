@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,6 +18,7 @@ const Index = (props) => {
   const [NavLoginSuccess, setNavLoginSuccess] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [submitSearch, setSubmitSearch] = useState(false);
+  const [userID, setUserID] = useState(null); // State to hold the userID
 
   const loginSuccess = (boolean) => {
     setNavLoginSuccess(boolean);
@@ -34,6 +35,25 @@ const Index = (props) => {
       return null;
     }
   };
+
+  useEffect(() => {
+    // Get the token from localStorage
+    const token = localStorage.getItem("token-user");
+
+    if (token) {
+      // Parse the token to get the user ID
+      const userData = parseJwt(token);
+
+      if (userData && userData.userID) {
+        // Set the userID in the component state
+        setUserID(userData.userID);
+
+        // Save the userID to localStorage
+        localStorage.setItem("userID", userData.userID);
+      }
+    }
+    console.log("userID:",userID);
+  }, [userID]);
 
   // Usage
   if (localStorage.getItem("token-user")) {
@@ -123,7 +143,7 @@ const Index = (props) => {
                     <li className="nav-item">
                       <button className="btn btn-success d-flex d-row">
                         <i className="fas fa-shopping-cart align-self-center mr-2" />
-                        <p className="my-0">Cart</p>
+                        <p className="my-0">Cart : {props.dataCart.length}</p>
                       </button>
                     </li>
                   </Link>
@@ -292,6 +312,7 @@ const Index = (props) => {
 const mapStateToProps = (state) => {
   return {
     tokenUser: state.LoginReducer.tokenUser,
+    dataCart: state.UserReducer.dataCart,
   };
 };
 

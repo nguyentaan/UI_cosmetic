@@ -13,7 +13,6 @@ import {
 } from "../../actionCreators/UserAction";
 
 const Cart = (props) => {
-  const urlLocalhost = `${process.env.REACT_APP_API_URL}`;
 
   const addQuantity = (id) => {
     props.increaseQtyBuy(id);
@@ -25,7 +24,7 @@ const Cart = (props) => {
 
   const picture = (image) => {
     return {
-      backgroundImage: `url(${urlLocalhost}/${image})`,
+      backgroundImage: `url(${image})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
       height: "8rem",
@@ -121,7 +120,7 @@ const Cart = (props) => {
                     <td>
                       <div className="btn-group" role="group" aria-label="...">
                         <button
-                          onClick={() => decreaseQuantity(item._id)}
+                          onClick={() => decreaseQuantity(item.productID)}
                           className="btn btn-outline-success"
                         >
                           -
@@ -133,7 +132,7 @@ const Cart = (props) => {
                           <b>{item.qtyBuy}</b>
                         </p>
                         <button
-                          onClick={() => addQuantity(item._id)}
+                          onClick={() => addQuantity(item.productID)}
                           className="btn btn-outline-success"
                         >
                           +

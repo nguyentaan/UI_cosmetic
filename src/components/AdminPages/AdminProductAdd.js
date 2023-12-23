@@ -5,14 +5,13 @@ import { Modal, Button } from "react-bootstrap";
 import { addDataProduct } from "../../actionCreators/AdminAction";
 
 const AdminProductAdd = (props) => {
-
   const [dataAddInput, setDataAddInput] = useState({
     image: "",
     name: "",
     price: "",
     description: "",
     quantity: "",
-    productType: "",
+    productType: "Face",
   });
 
   const handleAddInputChange = (event) => {
@@ -21,37 +20,47 @@ const AdminProductAdd = (props) => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  // const selectFile = (event) => {
-  //   setDataAddInput({
-  //     ...dataAddInput,
-  //     [event.currentTarget.name]: event.target.files[0],
-  //   });
-  //   setSelectedFileName(event.target.files[0].name);
-  // };
 
   const closeAddModal = () => {
     props.unDisplayAddModal(false);
   };
 
-  //  Form Edit Data = for image inputs, we use form data in Insomnia. So here we are.
-  const FormAddData = new FormData();
-  FormAddData.append("image", dataAddInput.image);
-  FormAddData.append("name", dataAddInput.name);
-  FormAddData.append("price", dataAddInput.price);
-  FormAddData.append("description", dataAddInput.description);
-  FormAddData.append("quantity", dataAddInput.quantity);
-  FormAddData.append("productType", dataAddInput.productType);
+  const addProduct = async (productData) => {
+    try {
+      const response = await fetch("http://localhost:8081/products/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
 
-  const handleSubmitAdd = (event) => {
+      if (response.ok) {
+        console.log("Product added successfully!");
+        window.location.reload();
+        // Handle any additional logic after a successful API call
+      } else {
+        console.error("Failed to add product:", response.statusText);
+        // Handle error scenarios
+      }
+    } catch (error) {
+      console.error("Error adding product:", error.message);
+      // Handle error scenarios
+    }
+  };
+
+  const handleSubmitAdd = async (event) => {
     event.preventDefault();
-    props.addDataProduct(FormAddData, dataAddInput);
+    console.log(dataAddInput);
+    // props.addDataProduct(dataAddInput);
+    await addProduct(dataAddInput);
     setDataAddInput({
-      image: null,
+      image: "",
       name: "",
       price: "",
       description: "",
       quantity: "",
-      productType: "",
+      productType: "Face",
     });
     props.unDisplayAddModal(false);
   };

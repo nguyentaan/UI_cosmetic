@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   getDataProduct,
-  deleteDataProduct,
+  // deleteDataProduct,
 } from "../../actionCreators/AdminAction";
 import { useDispatch } from "react-redux";
 
@@ -16,16 +16,6 @@ import "./../Admin.css";
 const AdminProduct = (props) => {
   // const urlLocalhost = `${process.env.REACT_APP_API_URL}`;
   const dispatch = useDispatch();
-
-  const picture = (image) => {
-    return {
-      backgroundImage: `url(${image})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      marginTop: "1rem",
-      height: "14rem",
-    };
-  };
 
   useEffect(() => {
     dispatch(getDataProduct());
@@ -86,9 +76,32 @@ const AdminProduct = (props) => {
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
-  const handleDelete = () => {
-    dispatch(deleteDataProduct(dataDelete.productID));
-    setShowDeleteModal(false);
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/products/delete/${dataDelete.productID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("Product deleted successfully!");
+        window.location.reload();
+        // Perform any necessary UI updates or component re-rendering after deletion
+      } else {
+        console.error("Failed to delete product:", response.statusText);
+        // Handle error scenarios
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error.message);
+    } finally {
+      setShowDeleteModal(false);
+      // You might want to trigger a re-fetch of the product data after deletion
+    }
   };
   const DeleteProductModal = () => {
     return (
@@ -163,11 +176,9 @@ const AdminProduct = (props) => {
             return (
               <div className="col-md-3 mt-4" key={index}>
                 <div className="card h100">
-                  <div
-                    style={picture(item.image)}
-                    className="card-img-top"
-                    alt="..."
-                  />
+                  <div className="card-img">
+                    <img src={item.image} alt={item.name} className="product-image"/>
+                  </div>
                   <div className="card-body sp">
                     <div>
                       <p className="font-weight-bold my-0">{item.name}</p>

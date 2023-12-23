@@ -1,18 +1,36 @@
-.h100{
-    height: 100% !important;
+.h100 {
+  height: 100% !important;
 }
 
-.df{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.df {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.sp{
+.sp {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+}
+
+.card-img {
+  height: 240px;
+  padding: 5px;
+  position: relative;
+  text-align: center;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.product-image {
+  max-width: 100%;
+  max-height: 100%;
+  display: inline-block;
 }
 
 /* Add this CSS in your stylesheet or style tag */
@@ -28,7 +46,7 @@
 
 /* Add these styles to your CSS file */
 
-.tag{
+.tag {
   /* height: 100%; */
   padding: 10px;
   border-radius: 0.25rem;
@@ -42,5 +60,3 @@
   background-color: red;
   color: white; /* You can adjust the text color based on your design */
 }
-
-

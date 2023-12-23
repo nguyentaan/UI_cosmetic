@@ -44,10 +44,10 @@ export const deleteUser = (dataId) => {
 
 // FOR ADMIN PRODUCT PART
 
-export const addDataProduct = (FormAddData, data) => {
+export const addDataProduct = (data) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${url}/products/create`, FormAddData, {
+      const response = await axios.post(`${url}/products/create`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
           "x-access-token": tokenAdmin,

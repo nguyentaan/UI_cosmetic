@@ -48,11 +48,40 @@ const AdminProductEdit = (props) => {
   FormEditData.append("productType", dataEditInput.productType);
   FormEditData.append("status", dataEditInput.status);
 
-  const handleSubmitEdit = (event) => {
+  const handleSubmitEdit = async (event) => {
     event.preventDefault();
-    props.editDataProduct(FormEditData, props.dataEdit, dataEditInput);
-    props.unDisplayEditModal(false);
-    console.log("product edited: ",props.dataEdit);
+    const payload = {
+      image: dataEditInput.image,
+      name: dataEditInput.name,
+      price: dataEditInput.price,
+      description: dataEditInput.description,
+      quantity: dataEditInput.quantity,
+      productType: dataEditInput.productType,
+      status: dataEditInput.status,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:8081/products/update/${props.dataEdit.productID}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.ok) {
+        console.log("Product updated successfully!");
+        window.location.reload();
+        props.unDisplayEditModal(false);
+      } else {
+        console.error("Failed to update product:", response.statusText);
+        // Handle error scenarios
+      }
+      console.log("product edited: ", props.dataEdit);
+    } catch (error) {
+      console.error("Error updating product:", error.message);
+    }
   };
 
   return (
@@ -146,7 +175,7 @@ const AdminProductEdit = (props) => {
                 <label htmlFor="product-type">Select Product Status</label>
                 <select
                   className="form-control"
-                  name="productType"
+                  name="status"
                   value={dataEditInput.status}
                   onChange={handleEditInputChange}
                 >

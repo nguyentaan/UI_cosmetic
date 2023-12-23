@@ -28,15 +28,6 @@ const Products = (props) => {
     setDataProduct(data);
     setShowDetailModal(true);
   };
-  const picture = (image) => {
-    return {
-      backgroundImage: `url(${image})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      marginTop: "1rem",
-      height: "14rem",
-    };
-  };
 
   useEffect(() => {
     dispatch(getDataProduct());
@@ -85,11 +76,13 @@ const Products = (props) => {
                     // kalau tanpa ()=> nanti ulang render terus ga bisa jalan
                     onClick={() => showDetail(item)}
                   >
-                    <div
-                      style={picture(item.image)}
-                      className="card-img-top"
-                      alt="..."
-                    />
+                    <div className="card-img">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="product-image"
+                      />
+                    </div>
                     <h3 className="text-success-s2 font-weight-bold">
                       SEE DETAIL
                     </h3>

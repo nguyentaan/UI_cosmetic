@@ -50,7 +50,7 @@ const AdminUsers = (props) => {
     setShowDeleteModal(false);
   };
   const handleDelete = () => {
-    dispatch(deleteUser(dataDelete._id));
+    dispatch(deleteUser(dataDelete.userID));
     setShowDeleteModal(false);
   };
   const DeleteProductModal = () => {

@@ -70,12 +70,6 @@ const CheckoutModal = (props) => {
               className="mx-5"
               style={{ borderLeft: "2px solid #e3e3e3", height: "3rem" }}
             />
-            <p className=" text-secondary">
-              Payment Method: <br />
-              <span className="font-weight-bold text-dark">
-                {props.dataInputCheckout.payment}
-              </span>
-            </p>
           </div>
 
           <div
@@ -144,13 +138,13 @@ const CheckoutModal = (props) => {
                             <p className="text-success-s2 mb-0 mt-1">
                               {item.name}
                               <span className="text-secondary font-weight-bold ml-2">
-                                × {item.qtyBuy}
+                                × {item.orderQuantity}
                               </span>
                             </p>
                           </div>
                           <div className="col-md-3 text-right pr-0">
                             <p className="text-success-s2 mb-0 mt-2 font-weight-bold">
-                              ${item.price * item.qtyBuy}
+                              ${item.price * item.orderQuantity}
                             </p>
                           </div>
                         </div>
@@ -179,13 +173,6 @@ const CheckoutModal = (props) => {
                   <td>Postal Code:</td>
                   <td>
                     <b>{props.dataInputCheckout.postalCode}</b>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">9</th>
-                  <td> Payment:</td>
-                  <td>
-                    <b>{props.dataInputCheckout.payment}</b>
                   </td>
                 </tr>
                 <tr>

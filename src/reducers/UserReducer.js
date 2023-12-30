@@ -27,7 +27,7 @@ const UserReducer = (state = initialState, action) => {
     case "ADD_ITEM_TO_CART":
       const data = {
         ...action.payload,
-        qtyBuy: 1,
+        orderQuantity: 1,
       };
       const dataIsSame = state.dataCart.find((item) => {
         return item.productID === data.productID;
@@ -54,8 +54,8 @@ const UserReducer = (state = initialState, action) => {
     case "INCREASE_QTY_BUY":
       const dataCart = state.dataCart.map((item) => {
         if (action.payload === item.productID) {
-          // ++ = item.qtyBuy + 1, pkai ini krna kalau +1 ngga diterima
-          item.qtyBuy++;
+          // ++ = item.orderQuantity + 1, pkai ini krna kalau +1 ngga diterima
+          item.orderQuantity++;
         }
 
         return item;
@@ -69,8 +69,8 @@ const UserReducer = (state = initialState, action) => {
 
     case "DECREASE_QTY_BUY":
       const dataCartDecrease = state.dataCart.map((item) => {
-        if (action.payload === item.productID && item.qtyBuy !== 1) {
-          item.qtyBuy--;
+        if (action.payload === item.productID && item.orderQuantity !== 1) {
+          item.orderQuantity--;
         }
 
         return item;

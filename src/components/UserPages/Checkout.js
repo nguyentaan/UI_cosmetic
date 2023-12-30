@@ -59,7 +59,7 @@ const Checkout = (props) => {
       try {
         const productsArray = props.dataCart.map((item) => ({
           productID: item.productID,
-          qtyBuy: item.qtyBuy,
+          orderQuantity: item.orderQuantity,
           price: item.price,
         }));
 
@@ -76,6 +76,7 @@ const Checkout = (props) => {
         delete orderDetails.payment;
 
         console.log("Order Details:", orderDetails);
+        console.log("userID:", userID);
 
         const response = await axios.post(
           "http://localhost:8081/orders/create",
@@ -301,13 +302,13 @@ const Checkout = (props) => {
                             <p className="text-success-s2 mb-0 mt-2">
                               {item.name}
                               <span className="text-secondary font-weight-bold ml-2">
-                                × {item.qtyBuy}
+                                × {item.orderQuantity}
                               </span>
                             </p>
                           </div>
                           <div className="col-md-3 text-right pr-0">
                             <p className="text-success-s2 mb-0 mt-2 font-weight-bold">
-                              ${item.price * item.qtyBuy}
+                              ${item.price * item.orderQuantity}
                             </p>
                           </div>
                         </div>
@@ -464,7 +465,7 @@ const mapStateToProps = (state) => {
   // selama i lebih kecil dari banyaknya array di datacart, dia bakal tambah terus.
   for (i = 0; i < dataCart.length; i++) {
     // += itu smacam kalkulator untuk tambah terus. Jadi subtotal yang awalnya 0 di render prtama jadi $10, nah habis render lgi $10 + $10 lagi jadi $20.
-    subTotalPrice += dataCart[i].qtyBuy * dataCart[i].price;
+    subTotalPrice += dataCart[i].orderQuantity * dataCart[i].price;
   }
 
   return {

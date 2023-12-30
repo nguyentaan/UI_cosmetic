@@ -129,7 +129,7 @@ const Cart = (props) => {
                           className="btn my-0 text-success-s2"
                           style={{ borderColor: "#009e7f", cursor: "default" }}
                         >
-                          <b>{item.qtyBuy}</b>
+                          <b>{item.orderQuantity}</b>
                         </p>
                         <button
                           onClick={() => addQuantity(item.productID)}
@@ -142,7 +142,7 @@ const Cart = (props) => {
                     <td>
                       <div className="d-flex d-row">
                         <h6 className="font-weight-bold text-secondary align-self-center my-0">
-                          ${item.price * item.qtyBuy}
+                          ${item.price * item.orderQuantity}
                         </h6>
                         <button
                           className="btn trash-cart-btn ml-2"
@@ -222,7 +222,7 @@ const mapStateToProps = (state) => {
   // selama i lebih kecil dari banyaknya array di datacart, dia bakal tambah terus.
   for (i = 0; i < dataCart.length; i++) {
     // += itu smacam kalkulator untuk tambah terus. Jadi subtotal yang awalnya 0 di render prtama jadi $10, nah habis render lgi $10 + $10 lagi jadi $20.
-    subTotalPrice += dataCart[i].qtyBuy * dataCart[i].price;
+    subTotalPrice += dataCart[i].orderQuantity * dataCart[i].price;
   }
 
   return {

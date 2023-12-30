@@ -6,6 +6,7 @@ import Login from "./AdminLogin";
 import AdminDashboard from "./Dashboard";
 import AdminProductPage from "./AdminProduct";
 import AdminUsersPage from "./AdminUsers";
+import AdminOrders from "./AdminOrders";
 
 const Index = (props) => {
   return (
@@ -30,6 +31,10 @@ const Index = (props) => {
                   <hr className="vertical-line mx-4 my-0" />
                   <Link to="/admin/product">
                     <h4 className="text-success-s2 admin-nav">Products</h4>
+                  </Link>
+                  <hr className="vertical-line mx-4 my-0" />
+                  <Link to="/admin/orders">
+                    <h4 className="text-success-s2 admin-nav">Orders</h4>
                   </Link>
                 </div>
                 <AdminDashboard />
@@ -60,6 +65,10 @@ const Index = (props) => {
                   <Link to="/admin/product">
                     <h4 className="text-success-s2 admin-nav">Products</h4>
                   </Link>
+                  <hr className="vertical-line mx-4 my-0" />
+                  <Link to="/admin/orders">
+                    <h4 className="text-success-s2 admin-nav">Orders</h4>
+                  </Link>
                 </div>
                 <AdminProductPage />
               </div>
@@ -88,8 +97,44 @@ const Index = (props) => {
                   <Link to="/admin/product">
                     <h4 className="text-success-s2 admin-nav">Products</h4>
                   </Link>
+                  <hr className="vertical-line mx-4 my-0" />
+                  <Link to="/admin/orders">
+                    <h4 className="text-success-s2 admin-nav">Orders</h4>
+                  </Link>
                 </div>
                 <AdminUsersPage />
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            props.tokenAdmin ? (
+              <div>
+                <h1 className="text-success-s2 text-center">
+                  Welcome Admin, this is the Orders Page.
+                </h1>
+                <div className="d-flex d-row justify-content-center">
+                  <Link to="/admin">
+                    <h4 className="text-success-s2 admin-nav">Home</h4>
+                  </Link>
+                  <hr className="vertical-line mx-4 my-0" />
+                  <Link to="/admin/users">
+                    <h4 className="text-success-s2 admin-nav">Users</h4>
+                  </Link>
+                  <hr className="vertical-line mx-4 my-0" />
+                  <Link to="/admin/product">
+                    <h4 className="text-success-s2 admin-nav">Products</h4>
+                  </Link>
+                  <hr className="vertical-line mx-4 my-0" />
+                  <Link to="/admin/orders">
+                    <h4 className="text-success-s2 admin-nav">Orders</h4>
+                  </Link>
+                </div>
+                <AdminOrders/>
               </div>
             ) : (
               <Navigate to="/login" />

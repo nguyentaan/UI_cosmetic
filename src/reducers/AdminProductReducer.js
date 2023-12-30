@@ -34,7 +34,7 @@ const AdminUserReducer = (state = initialState, action) => {
     case "DELETE_DATA_PRODUCT":
       const dataAfterDelete = state.dataProduct.filter((item) => {
         //   action.payload = id product.
-        if (item._id === action.payload) {
+        if (item.productID === action.payload) {
           return false;
         } else return true;
       });
@@ -46,7 +46,7 @@ const AdminUserReducer = (state = initialState, action) => {
 
     case "EDIT_DATA_PRODUCT":
       const dataAfterEdit = state.dataProduct.map((item) => {
-        if (item._id === action.payload._id) {
+        if (item.productID === action.payload.productID) {
           return action.payload;
         } else return item;
       });

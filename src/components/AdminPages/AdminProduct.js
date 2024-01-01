@@ -76,6 +76,8 @@ const AdminProduct = (props) => {
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
+  const tokenAdmin = localStorage.getItem("token-admin");
+
   const handleDelete = async () => {
     try {
       const response = await fetch(
@@ -84,6 +86,7 @@ const AdminProduct = (props) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "x-access-token": tokenAdmin,
           },
         }
       );
@@ -177,7 +180,11 @@ const AdminProduct = (props) => {
               <div className="col-md-3 mt-4" key={index}>
                 <div className="card h100">
                   <div className="card-img">
-                    <img src={item.image} alt={item.name} className="product-image"/>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="product-image"
+                    />
                   </div>
                   <div className="card-body sp">
                     <div>

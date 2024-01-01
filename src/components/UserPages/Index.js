@@ -52,7 +52,7 @@ const Index = (props) => {
         localStorage.setItem("userID", userData.userID);
       }
     }
-    console.log("userID:",userID);
+    console.log("userID:", userID);
   }, [userID]);
 
   // Usage
@@ -122,9 +122,9 @@ const Index = (props) => {
       <div className="main-bg-height" style={picture(mainBg)}>
         <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
           <div className="container">
-            <a className="navbar-brand" href="/">
+            <Link to="/">
               <img src={logo} className="logo-fx" alt="..." />
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -172,6 +172,11 @@ const Index = (props) => {
                         {userData ? `Hello, ${userData.username}` : "Hello"}
                       </button>
                       <div className="dropdown-menu t45">
+                        <Link to="/orders">
+                          <button className="dropdown-item text-success">
+                            Your Orders <i className="fas fa-shopping-cart"></i>
+                          </button>
+                        </Link>
                         <button
                           className="dropdown-item text-danger"
                           onClick={Logout}

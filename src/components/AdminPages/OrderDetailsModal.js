@@ -11,7 +11,6 @@ const OrderDetaislModal = (props) => {
   const [order, setOrder] = useState({});
   const [products, setProducts] = useState([]);
 
-  console.log("selected order", props.order);
   const orderid = props.order;
 
   useEffect(() => {
@@ -34,9 +33,10 @@ const OrderDetaislModal = (props) => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8081/orders/getOrderDetaiLs/${orderid}`
+          `http://localhost:8081/orders/displayOrderDetailInformation/${orderid}`
         );
-        const responseData = response.data.data;
+        console.log("Products API Response:", response);
+        const responseData = response.data.orderDetails;
         setProducts(responseData);
       } catch (error) {
         console.error("Error fetching products: ", error);
@@ -44,8 +44,6 @@ const OrderDetaislModal = (props) => {
     };
     fetchProducts();
   }, [orderid]);
-
-  console.log(products);
 
   return (
     <Modal size="lg" show={props.showOrderModal} onHide={closeCheckoutModal}>
@@ -93,13 +91,20 @@ const OrderDetaislModal = (props) => {
                 </tr>
                 <tr>
                   <th scope="row">3</th>
-                  <td>Phone Number:</td>
+                  <td>Email:</td>
                   <td>
-                    <b>{order.phoneNumber}</b>
+                    <b>{order.email}</b>
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">4</th>
+                  <td>Phone Number:</td>
+                  <td>
+                    <b>+84{order.phoneNumber}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
                   <td>Location:</td>
                   <td>
                     <b>
@@ -108,7 +113,7 @@ const OrderDetaislModal = (props) => {
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">5</th>
+                  <th scope="row">6</th>
                   <td className="checkout-modal-td">Product:</td>
                   <td>
                     {products.map((item, index) => {
@@ -116,7 +121,7 @@ const OrderDetaislModal = (props) => {
                         <div className="d-flex d-row" key={index}>
                           <div className="col-md-9 px-0">
                             <p className="text-success-s2 mb-0 mt-1">
-                              {item.productID}
+                              {item.name}
                               <span className="text-secondary font-weight-bold ml-2">
                                 × {item.orderQuantity}
                               </span>
@@ -128,7 +133,7 @@ const OrderDetaislModal = (props) => {
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">6</th>
+                  <th scope="row">7</th>
                   <td>Postal Code:</td>
                   <td>
                     <b>{order.postalCode}</b>
@@ -136,13 +141,27 @@ const OrderDetaislModal = (props) => {
                 </tr>
                 <tr>
                   <th scope="row">7</th>
+                  <td>Payment:</td>
+                  <td>
+                    <b>{order.pMethod}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>Shipping Cost:</td>
+                  <td>
+                    <b>${order.shippingCost}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
                   <td>Status:</td>
                   <td>
                     <b>{order.status}</b>
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">8</th>
+                  <th scope="row">9</th>
                   <td
                     className="font-weight-bold"
                     style={{ fontSize: "1.1rem" }}

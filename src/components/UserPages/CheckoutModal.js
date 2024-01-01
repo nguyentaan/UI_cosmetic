@@ -176,6 +176,13 @@ const CheckoutModal = (props) => {
                   </td>
                 </tr>
                 <tr>
+                  <th scope="row">8</th>
+                  <td>Payment:</td>
+                  <td>
+                    <b>{props.dataInputCheckout.payment}</b>
+                  </td>
+                </tr>
+                <tr>
                   <th scope="row">10</th>
                   <td
                     className="font-weight-bold"

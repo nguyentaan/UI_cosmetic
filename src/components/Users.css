@@ -20,11 +20,11 @@
   background-color: #009e7f !important;
 }
 
-.h100{
+.h100 {
   height: 100%;
 }
 
-.sp{
+.sp {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -247,4 +247,143 @@ td {
     to(#058057),
     color-stop(0.6, #009e7f)
   );
+}
+
+.user-orders-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.orders-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
+}
+
+.order-card {
+  width: 1000px;
+  padding: 24px 24px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.header-card {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+
+.status {
+}
+
+.body-card {
+  display: flex;
+}
+
+.image-card {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border: 1px solid #e1e1e1;
+  background: #e1e1e1;
+}
+
+.info-card {
+  min-width: 0;
+  padding: 0 0 0 12px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  word-wrap: break-word;
+}
+
+.name-product {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  margin: 0 0 5px;
+  font-size: 16px;
+  line-height: 22px;
+  max-height: 48px;
+}
+
+.type-product {
+  margin: 0 0 5px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.orderQuantity {
+  margin: 0 0 5px;
+}
+
+.price-product {
+  color: #ee4d2d;
+}
+
+.footer-card {
+  display: flex;
+  justify-content: space-between;
+  color: #ee4d2d;
+  font-size: 24px;
+  line-height: 30px;
+  padding: 24px;
+  background: #fffefb;
+}
+
+.df1 {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.draft-status {
+  background-color: lightblue;
+}
+
+.confirmed-status {
+  background-color: #FFD700; /* Gold */
+}
+
+.processing-status {
+  background-color: lightcyan;
+}
+
+.shipping-status {
+  background-color: lightyellow;
+}
+
+.delivered-status {
+  background-color: lightgreen;
+}
+
+.paid-status {
+  background-color: #90EE90; /* Lightgreen */
+}
+
+.cancelled-status {
+  background-color: lightcoral;
+}
+
+
+.cancel-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
 }

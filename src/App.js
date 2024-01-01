@@ -5,6 +5,7 @@ import UserPage from "./components/UserPages/Index";
 import AdminPage from "./components/AdminPages/Index";
 import CartPage from "./components/UserPages/Cart";
 import CheckoutPage from "./components/UserPages/Checkout";
+import UserOrders from "./components/UserPages/UserOrders";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<UserPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<UserOrders />} />
             <Route path="/admin/*" element={<AdminPage />} />
           </Routes>
         </Router>

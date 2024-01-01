@@ -5,6 +5,7 @@ import { Modal, Button } from "react-bootstrap";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import axios from "axios";
 import OrderDetaislModal from "./OrderDetailsModal";
+import OrderEditModal from "./OrderEditModal";
 // import { getDataUser, deleteUser } from "../../actionCreators/AdminAction";
 // import { useDispatch } from "react-redux";
 
@@ -31,23 +32,60 @@ const AdminOrders = (props) => {
       }
     };
 
-    fetchOrders(); // Call fetchOrders directly in the useEffect
-  }, []); // Empty dependency array ensures the useEffect runs only once when the component mounts
+    fetchOrders();
+  }, []);
+
+  const tokenAdmin = localStorage.getItem("token-admin");
+
+  const handleDelete = async () => {
+    try {
+      // Assuming your backend API endpoint for deleting orders is something like "/orders/delete"
+      const response = await axios.delete(
+        `http://localhost:8081/orders/delete/${dataDelete.orderID}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": tokenAdmin,
+          },
+        }
+      );
+
+      // Check if the deletion was successful
+      if (response.status === 200) {
+        console.log("Order deleted successfully");
+        // Optionally, you can update the state to remove the deleted order
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.orderID !== dataDelete.orderID)
+        );
+      } else {
+        console.error("Error deleting order:", response.data);
+      }
+    } catch (error) {
+      console.error("Error deleting order:", error);
+    } finally {
+      setShowDeleteModal(false);
+    }
+  };
 
   // DELETE MODAL FORM.
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // dataDelete = productDatas that want to be deleted.
   const [dataDelete, setDataDelete] = useState({});
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const showOrderDetails = (data) => {
     setSelectedOrder(data);
     setShowOrderModal(true);
-  }
+  };
 
-    const unDisplayCheckoutModal = (boolean) => {
-      setShowOrderModal(boolean);
-      // take back user to home page
-    };
+  const showOrderEditModal = (data) => {
+    setSelectedOrder(data);
+    setShowEditModal(true);
+  };
+
+  const unDisplayCheckoutModal = (boolean) => {
+    setShowOrderModal(boolean);
+    setShowEditModal(boolean);
+  };
 
   const displayDeleteModal = (data) => {
     setDataDelete(data);
@@ -56,19 +94,12 @@ const AdminOrders = (props) => {
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
-  const handleDelete = () => {
-    // dispatch(deleteUser(dataDelete.userID));
-    setShowDeleteModal(false);
-  };
   const DeleteProductModal = () => {
     return (
       <Modal show={showDeleteModal} onHide={closeDeleteModal}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <p>
-              Are you sure want to delete this user with the name of
-              <span className="text-success-s2">"{dataDelete.username}"</span> ?
-            </p>
+            <p>Are you sure want to delete this order</p>
           </Modal.Title>
         </Modal.Header>
 
@@ -152,7 +183,7 @@ const AdminOrders = (props) => {
                   </button>
                   <button
                     className="btn btn-warning mr-2"
-                    // onClick={() => displayEditModal(item)}
+                    onClick={() => showOrderEditModal(item)}
                   >
                     <i className="far fa-edit fa-lg"></i>
                   </button>
@@ -172,6 +203,11 @@ const AdminOrders = (props) => {
       <OrderDetaislModal
         order={selectedOrder}
         showOrderModal={showOrderModal}
+        unDisplayCheckoutModal={unDisplayCheckoutModal}
+      />
+      <OrderEditModal
+        order={selectedOrder}
+        showEditModal={showEditModal}
         unDisplayCheckoutModal={unDisplayCheckoutModal}
       />
     </div>

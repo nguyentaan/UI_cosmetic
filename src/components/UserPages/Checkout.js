@@ -69,8 +69,9 @@ const Checkout = (props) => {
           userID: parseInt(userID, 10),
           totalPrice: (props.subTotalPrice + 5).toString(),
           // Remove payment field
-          // payment: dataInputCheckout.payment,
+          pMethod: dataInputCheckout.payment,
           products: productsArray,
+          shippingCost:5,
         };
         // Omit the payment field
         delete orderDetails.payment;
@@ -101,7 +102,7 @@ const Checkout = (props) => {
   const navigate = useNavigate();
   const unDisplayCheckoutModal = (boolean) => {
     setShowCheckoutModal(boolean);
-    // take back user to home page
+    window.location.reload();
     navigate("/");
   };
 
